@@ -1,17 +1,49 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import elements.Branch;
+import elements.Bubble;
+import elements.Bubbles;
+import elements.TreeBranch;
+
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        final int WIDTH = 1920;
+        final int HEIGHT = 1080;
+        int srodek_x = 460;
+        int pocz_y = 20;
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+        JFrame frame = new JFrame("Choinka");
+        DrawPanel drawPanel =  new DrawPanel();
+        TreeBranch treeBranch = new TreeBranch();
+        Bubbles bubbles = new Bubbles();
+
+        int new_x = srodek_x;
+        int new_y = pocz_y;
+        int new_wys = 50;
+        int new_szer = 80;
+        for(int i = 4; i < 12; i++){
+            new_y+=i*5;
+            new_wys+=i*5;
+            new_szer+=i*7;
+            treeBranch.addBranch(new Branch(new_x, new_y , new_wys, new_szer))
+                    .addBranch(new Branch(new_x, new_y , new_wys, -new_szer));
+            System.out.println("wymiary:");
+            System.out.println(new_x);
+            System.out.println(new_y);
+            bubbles.addBubble(new Bubble(new_x, new_y));
         }
+
+        // niestety takie coś wywala :(
+        //drawPanel.addElementAll(treeBranch.getBranches());
+        treeBranch.getBranches().forEach(drawPanel::addElement);
+        bubbles.getBubblesList().forEach(drawPanel::addElement);
+
+        frame.setContentPane(drawPanel);
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setResizable(true);
+        frame.setVisible(true);
     }
 }
